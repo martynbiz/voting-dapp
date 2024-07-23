@@ -58,7 +58,7 @@ module.exports = {
    */
 
   // Configure networks, compilers, etc.
-  contracts_build_directory: './app/public/contracts',
+  contracts_build_directory: './web/public/contracts',
   contracts_directory: './truffle/contracts',
   migrations_directory: './truffle/migrations',
   test_directory: './truffle/test',

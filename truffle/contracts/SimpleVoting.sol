@@ -27,7 +27,8 @@ contract SimpleVoting {
     WorkflowStatus public workflowStatus;
 
     mapping(address => Voter) public voters;
-    uint32 public voterCount; // Counter for the number of registered voters
+    uint32 public voterCount = 0; // Counter for the number of registered voters
+    address[] public voterAddresses; // Array to keep track of all registered voter addresses
 
     Proposal[] public proposals;
 
@@ -144,6 +145,7 @@ contract SimpleVoting {
         voters[_voterAddress].votedProposalId = 0;
 
         voterCount++;
+        voterAddresses.push(_voterAddress); // Add address to the array
 
         emit VoterRegisteredEvent(_voterAddress);
     }
@@ -255,6 +257,14 @@ contract SimpleVoting {
 
     function getVotersNumber() public view returns (uint32) {
         return voterCount;
+    }
+
+    function getVoters() public view returns (Voter[] memory) {
+        Voter[] memory allVoters = new Voter[](voterAddresses.length);
+        for (uint i = 0; i < voterAddresses.length; i++) {
+            allVoters[i] = voters[voterAddresses[i]];
+        }
+        return allVoters;
     }
 
     function getAllProposals() public view returns (Proposal[] memory) {
